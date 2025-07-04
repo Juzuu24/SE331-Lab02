@@ -3,19 +3,19 @@ import EventCard from '@/components/EventCard.vue'
 import CategoryOrganizerCard from '@/components/CategoryOrganizerCard.vue' // Import the new component
 import type { Event } from '@/types'
 import { ref,onMounted } from 'vue'
-import axios from 'axios'
+import EventService from '@/services/EventService'
 
 const events=ref<Event[]>(null)
 onMounted(() => {
-  axios
-    .get('[your mock server url]')
+  EventService.getEvents()
     .then((response) => {
-      console.log(response.data)
+      events.value = response.data
     })
     .catch((error) => {
       console.error('There was an error!', error)
     })
 })
+
 </script>
 
 <template>
