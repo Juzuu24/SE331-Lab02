@@ -4,6 +4,7 @@ import EventListView from '@/views/EventListView.vue'
 import AboutView from '@/views/AboutView.vue'
 import StudentView from '@/views/StudentView.vue'
 import EventDetailView from '@/views/EventDetailView.vue'
+import { parse } from 'vue/compiler-sfc'
 
 
 const router = createRouter({
@@ -13,6 +14,7 @@ const router = createRouter({
       path: '/',
       name: 'event-list-view',
       component: EventListView,
+      props: (route) => ({ page: parseInt(route.query.page?.toString() || '1')})
     },
     {
       path: '/event/:id',

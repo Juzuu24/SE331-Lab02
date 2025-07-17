@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted,defineProps } from 'vue'
-import type { Event } from '@/types/Event'
+import  { type Event } from '@/types'
 import EventService from '@/services/EventService'
 
 const event = ref<Event | null>(null)
@@ -12,7 +12,7 @@ const props =defineProps({
 })
 onMounted(() => {
   // fetch event (by id) and set local event data
-  EventService.getEvent(props.id)
+  EventService.getEvent(parseInt(props.id))
   .then((response) => {
     event.value = response.data
   })
