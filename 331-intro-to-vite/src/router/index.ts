@@ -8,6 +8,7 @@ import EventRegisterView from '@/views/event/RegisterView.vue'
 import EventEditView from '@/views/event/EditView.vue'
 import EventLayoutView from '@/views/event/LayoutView.vue'
 import NotFoundView from '@/views/event/NotFoundView.vue'
+import NetworkErrorView from '@/views/NetworkErrorView.vue'
 
 import { parse } from 'vue/compiler-sfc'
 
@@ -43,7 +44,8 @@ const router = createRouter({
           name: 'event-edit-view',
           component: EventEditView,
           props: true
-        }
+        },
+       
       ]
     },
     {
@@ -61,7 +63,12 @@ const router = createRouter({
       path: '/student',
       name: 'student',
       component: StudentView
-    }
+    },
+     {
+        path: '/network-error',
+        name: 'network-error-view',
+        component: NetworkErrorView
+      }
   ]
 })
 
