@@ -11,7 +11,7 @@ import NetworkErrorView from '@/views/NetworkErrorView.vue'
 import { parse } from 'vue/compiler-sfc'
 import nProgress from 'nprogress'
 import EventService from '@/services/EventService'
-import { useEventStore } from '@/stores/event' // ✅ Add this line
+import { useEventStore } from '@/stores/event'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,11 +31,11 @@ const router = createRouter({
       props: true,
       beforeEnter: (to) => {
         const id = parseInt(to.params.id as string)
-        const eventStore = useEventStore() // ✅ Access store
+        const eventStore = useEventStore()
 
         return EventService.getEvent(id)
           .then((response) => {
-            eventStore.setEvent(response.data) // ✅ Store event data
+            eventStore.setEvent(response.data)
           })
           .catch((error) => {
             if (error.response && error.response.status === 404) {
@@ -89,10 +89,18 @@ const router = createRouter({
       name: 'not-found',
       component: NotFoundView
     }
-  ]
+  ],
+  // ✅ Scroll behavior with saved position
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { top: 0 }
+    }
+  }
 })
 
-// ✅ Global progress bar
+// ✅ Global progress bar control
 router.beforeEach(() => {
   nProgress.start()
 })
