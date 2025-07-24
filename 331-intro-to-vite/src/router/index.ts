@@ -1,16 +1,16 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/EventListView.vue'
-import EventListView from '@/views/EventListView.vue'
-import AboutView from '@/views/AboutView.vue'
-import StudentView from '@/views/StudentView.vue'
-import EventDetailView from '@/views/event/DetailView.vue'
-import EventRegisterView from '@/views/event/RegisterView.vue'
-import EventEditView from '@/views/event/EditView.vue'
-import EventLayoutView from '@/views/event/LayoutView.vue'
-import NotFoundView from '@/views/event/NotFoundView.vue'
-import NetworkErrorView from '@/views/NetworkErrorView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import EventListView from '@/views/EventListView.vue';
+import AboutView from '@/views/AboutView.vue';
+import StudentView from '@/views/StudentView.vue';
+import EventDetailView from '@/views/event/DetailView.vue';
+import EventRegisterView from '@/views/event/RegisterView.vue';
+import EventEditView from '@/views/event/EditView.vue';
+import EventLayoutView from '@/views/event/LayoutView.vue';
+import NotFoundView from '@/views/event/NotFoundView.vue';
+import NetworkErrorView from '@/views/NetworkErrorView.vue';
+import { parse } from 'vue/compiler-sfc';
 
-import { parse } from 'vue/compiler-sfc'
+import nProgress from 'nprogress'; // ✅ NEW
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,7 +19,9 @@ const router = createRouter({
       path: '/',
       name: 'event-list-view',
       component: EventListView,
-      props: (route) => ({ page: parseInt(route.query.page?.toString() || '1') })
+      props: (route) => ({
+        page: parseInt(route.query.page?.toString() || '1')
+      })
     },
     {
       path: '/event/:id',
@@ -44,8 +46,7 @@ const router = createRouter({
           name: 'event-edit-view',
           component: EventEditView,
           props: true
-        },
-       
+        }
       ]
     },
     {
@@ -54,22 +55,30 @@ const router = createRouter({
       component: AboutView
     },
     {
-  path: '/:catchAll(.*)',
-  name: 'not-found',
-  component: NotFoundView
-},
-
-    {
       path: '/student',
       name: 'student',
       component: StudentView
     },
-     {
-        path: '/network-error',
-        name: 'network-error-view',
-        component: NetworkErrorView
-      }
+    {
+      path: '/network-error',
+      name: 'network-error-view',
+      component: NetworkErrorView
+    },
+    {
+      path: '/:catchAll(.*)',
+      name: 'not-found',
+      component: NotFoundView
+    }
   ]
-})
+});
 
-export default router
+// ✅ Global NProgress integration
+router.beforeEach(() => {
+  nProgress.start();
+});
+
+router.afterEach(() => {
+  nProgress.done();
+});
+
+export default router;
