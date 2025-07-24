@@ -27,8 +27,6 @@ const hasNextPage = computed(() => {
 // Fetch events on page or size change
 onMounted(() => {
   watchEffect(() => {
-    events.value = null;
-
     EventService.getEvents(pageSize.value, page.value)
       .then((response) => {
         events.value = response.data;
