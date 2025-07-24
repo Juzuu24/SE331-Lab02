@@ -1,24 +1,27 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
-import { useRouter } from 'vue-router'
-import { type Event } from '@/types'
+import { toRefs } from 'vue';
+import { useRouter } from 'vue-router';
+import { type Event } from '@/types';
+import { useMessageStore } from '@/stores/message'; // Added
 
 const props = defineProps<{
-  event: Event
-}>()
+  event: Event;
+}>();
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { event } = toRefs(props)
-
-const router = useRouter()
+const { event } = toRefs(props);
+const router = useRouter();
+const store = useMessageStore(); // Added
 
 const register = () => {
-  // Simulate registration logic
-  // e.g., await EventService.register(event.value.id)
+  // Registration success logic
+  store.updateMessage('You are successfully registered for ' + event.value.title); // Added
 
-  // After successful registration, redirect to the event detail view
-  router.push({ name: 'event-detail-view', params: { id: event.value.id } })
-}
+  setTimeout(() => {
+    store.resetMessage(); // Added
+  }, 3000);
+
+  router.push({ name: 'event-detail-view', params: { id: event.value.id } }); // Replaced to include params
+};
 </script>
 
 <template>

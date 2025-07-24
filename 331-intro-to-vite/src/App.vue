@@ -1,24 +1,33 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router';
+import { useMessageStore } from '@/stores/message';
+import { storeToRefs } from 'pinia';
 
+const store = useMessageStore();
+const { message } = storeToRefs(store);
 </script>
+
 
 <template>
   <div id="layout">
     <header>
-        <div class="wrapper">
-            <nav>
-                <RouterLink to="/">Event</RouterLink> |
-                <RouterLink to="/about">About</RouterLink>|
-                <RouterLink to="/student">Student</RouterLink>
-                <RouterLink to="/event/:id"></RouterLink>
-            </nav>
-        </div>
+      <div id="flashMessage" v-if="message">
+        <h4>{{ message }}</h4>
+      </div>
+      <div class="wrapper">
+        <nav>
+          <RouterLink to="/">Event</RouterLink> |
+          <RouterLink to="/about">About</RouterLink> |
+          <RouterLink to="/student">Student</RouterLink>
+          <RouterLink to="/event/:id"></RouterLink>
+        </nav>
+      </div>
     </header>
 
     <RouterView />
-</div>
+  </div>
 </template>
+
 
 <style>
 #layout {
@@ -29,22 +38,33 @@ import { RouterLink, RouterView } from 'vue-router'
   color: #2c3e50;
 }
 
-
-nav{
+nav {
   padding: 30px;
 }
 
 nav a {
- font-weight: bold;
- color: #2c3e50;
+  font-weight: bold;
+  color: #2c3e50;
 }
 
 nav a.router-link-exact-active {
-    color: #42b983;
+  color: #42b983;
 }
 
-h2{
+h2 {
   font-size: 20px;
 }
 
+@keyframes yellofade {
+  from {
+    background-color: yellow;
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+#flashMessage {
+  animation: yellofade 3s ease-in-out;
+}
 </style>
