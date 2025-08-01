@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",  // ✅ simplified for Vercel
+    "build": "vite build",  
     "preview": "vite preview",
     "type-check": "vue-tsc --build",
-    "build-only": "vite build", // optional, for local use
+    "build-only": "vite build", 
     "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
     "lint:eslint": "eslint . --fix",
     "lint": "run-s lint:*",
