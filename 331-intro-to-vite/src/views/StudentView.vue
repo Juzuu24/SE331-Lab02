@@ -23,13 +23,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <h1>Student List</h1>
-    <div class="students-container">
+  <div class="px-4 py-6">
+    <h1 class="text-2xl font-bold text-center mb-6">Student List</h1>
+
+    <div class="flex flex-wrap justify-center gap-4 mt-4">
       <div
-        class="student-card"
         v-for="student in students"
         :key="student.id"
+        class="border border-gray-300 rounded-lg p-4 w-[220px] bg-blue-50 shadow-md"
       >
         <p><strong>Name:</strong> {{ student.name }}</p>
         <p><strong>Surname:</strong> {{ student.surname }}</p>
@@ -38,22 +39,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.students-container {
-justify-content: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.student-card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
-  width: 220px;
-  background-color: #f2f8ff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-</style>

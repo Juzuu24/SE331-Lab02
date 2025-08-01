@@ -6,27 +6,20 @@ import CategoryOrganizerCard from '@/components/CategoryOrganizerCard.vue'
 import { type Event } from '@/types'
 import EventService from '@/services/EventService'
 
-// Routing & Pagination
 const route = useRoute()
 const router = useRouter()
 
-// Page from query (default = 1)
 const page = computed(() => parseInt(route.query.page as string) || 1)
-
-// ✅ Fixed page size
 const pageSize = 3
 
-// State
 const events = ref<Event[] | null>(null)
 const totalEvents = ref(0)
 
-// Pagination logic
 const hasNextPage = computed(() => {
   const totalPages = Math.ceil(totalEvents.value / pageSize)
   return page.value < totalPages
 })
 
-// Fetch events when page changes
 onMounted(() => {
   watchEffect(() => {
     EventService.getEvents(pageSize, page.value)
@@ -42,18 +35,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1>Events for Good</h1>
+  <h1 class="text-2xl font-bold text-center my-4">Events for Good</h1>
 
-  <div class="events">
+  <div class="flex flex-col items-center gap-4">
     <EventCard
       v-for="event in events"
       :key="event.id + '-event'"
       :event="event"
     />
 
-    <div class="pagination">
+    <!-- ✅ Tailwindized pagination styling -->
+    <div class="flex w-[290px] mt-[15px] text-gray-700 text-sm font-medium">
       <RouterLink
         id="page-prev"
+        class="flex-1 text-left no-underline"
         :to="{ name: 'event-list-view', query: { page: page - 1 } }"
         rel="prev"
         v-if="page !== 1"
@@ -63,6 +58,7 @@ onMounted(() => {
 
       <RouterLink
         id="page-next"
+        class="flex-1 text-right no-underline"
         :to="{ name: 'event-list-view', query: { page: page + 1 } }"
         rel="next"
         v-if="hasNextPage"
@@ -72,38 +68,10 @@ onMounted(() => {
     </div>
   </div>
 
-  <h2>Categories & Organizers</h2>
+  <h2 class="text-xl font-semibold mt-8 mb-2">Categories & Organizers</h2>
   <CategoryOrganizerCard
     v-for="event in events"
     :key="event.id + '-category-organizer'"
     :event="event"
   />
 </template>
-
-<style scoped>
-.events {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.pagination {
-  display: flex;
-  width: 290px;
-  margin-top: 15px;
-}
-
-.pagination a {
-  flex: 1;
-  text-decoration: none;
-  color: #2c3e50;
-}
-
-#page-prev {
-  text-align: left;
-}
-
-#page-next {
-  text-align: right;
-}
-</style>
